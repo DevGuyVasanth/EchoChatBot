@@ -34,9 +34,12 @@ namespace Microsoft.BotBuilderSamples.Bots
         {
             string welcomeText;//= turnContext.Activity.Entities.Count.ToString();// "Vasanthakumar";// = turnContext.Activity.From.Properties["userparam"].ToString();
             welcomeText = "turnContext.Activity.From.Id==>" + turnContext.Activity.From.Id + " ; turnContext.Activity.Recipient.Id==>" + turnContext.Activity.Recipient.Id + "membersAdded[1]==>" + membersAdded[1].Id;
-            if (turnContext.Activity.Type == ActivityTypes.ConversationUpdate && !(string.IsNullOrEmpty(welcomeText)))
+            var channelObj = turnContext.Activity.ChannelData.ToString();
+            var channeldata = Newtonsoft.Json.Linq.JObject.Parse(channelObj);
+            var customdata = channeldata["username"].ToString();
+            if (turnContext.Activity.Type == ActivityTypes.ConversationUpdate && !(string.IsNullOrEmpty(customdata)))
             {
-                welcomeText = "Hello " + welcomeText;
+                welcomeText = "Hello " + customdata;
             }
             else
             {
