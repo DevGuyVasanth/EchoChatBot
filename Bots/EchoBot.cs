@@ -32,8 +32,8 @@ namespace Microsoft.BotBuilderSamples.Bots
 
         protected override async Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
         {
-            string welcomeText = turnContext.Activity.Conversation.Id;// "Vasanthakumar";// = turnContext.Activity.From.Properties["userparam"].ToString();
-            welcomeText = turnContext.Activity.From.Id;// "Vasanthakumar";// = turnContext.Activity.From.Properties["userparam"].ToString();
+            string welcomeText;//= turnContext.Activity.Entities.Count.ToString();// "Vasanthakumar";// = turnContext.Activity.From.Properties["userparam"].ToString();
+            welcomeText = "turnContext.Activity.From.Id==>" + turnContext.Activity.From.Id + " ; turnContext.Activity.Recipient.Id==>" + turnContext.Activity.Recipient.Id + "membersAdded[1]==>" + membersAdded[1].Id;
             if (turnContext.Activity.Type == ActivityTypes.ConversationUpdate && !(string.IsNullOrEmpty(welcomeText)))
             {
                 welcomeText = "Hello " + welcomeText;
