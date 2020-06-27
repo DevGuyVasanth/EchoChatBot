@@ -13,7 +13,7 @@ namespace Microsoft.BotBuilderSamples.Bots
     {
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
-            var replyText = "";
+            string replyText;
             if (turnContext.Activity.Text.ToUpper() == "HI")
             {
                 replyText = $"HexaBot Says: Hi";
@@ -27,7 +27,15 @@ namespace Microsoft.BotBuilderSamples.Bots
 
         protected override async Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
         {
-            var welcomeText = "Hello and Welcome!";
+            string welcomeText;
+            if (turnContext.Activity.Type == ActivityTypes.Message)
+            {
+                welcomeText = "Hello " + turnContext.Activity.From.Properties["userparam"].ToString();
+            }
+            else
+            {
+                welcomeText = "Hello and Welcome!";
+            }
             foreach (var member in membersAdded)
             {
                 if (member.Id != turnContext.Activity.Recipient.Id)
