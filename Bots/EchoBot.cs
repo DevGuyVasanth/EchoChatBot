@@ -3,6 +3,7 @@
 
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,6 +19,10 @@ namespace Microsoft.BotBuilderSamples.Bots
             {
                 replyText = $"HexaBot Says: Hi";
             }
+            else if (turnContext.Activity.Text.ToUpper() == "TIME")
+            {
+                replyText = $"HexaBot Says: " + DateTime.Now.ToString("dd-MMM-yyyy hh:mm:ss");
+            }
             else
             {
                 replyText = $"HexaBot Says: Oh Good ! {turnContext.Activity.Text}";
@@ -27,10 +32,11 @@ namespace Microsoft.BotBuilderSamples.Bots
 
         protected override async Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
         {
-            string welcomeText = turnContext.Activity.From.Properties["userparam"].ToString();
+            string welcomeText = turnContext.Activity.Conversation.Id;// "Vasanthakumar";// = turnContext.Activity.From.Properties["userparam"].ToString();
+            welcomeText = turnContext.Activity.From.Id;// "Vasanthakumar";// = turnContext.Activity.From.Properties["userparam"].ToString();
             if (turnContext.Activity.Type == ActivityTypes.ConversationUpdate && !(string.IsNullOrEmpty(welcomeText)))
             {
-                welcomeText = "Hello " + turnContext.Activity.From.Properties["userparam"].ToString();
+                welcomeText = "Hello " + welcomeText;
             }
             else
             {
